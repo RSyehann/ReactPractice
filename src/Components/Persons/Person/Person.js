@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import classes from './Person.css';
-
+import WithClass from '../../../Hoc/WithClass';
 class Person extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class Person extends Component {
         console.log('[Update Person.js] Inside componentWillReceiveProps', nextProps);
     }
 
-    shouldComponetUpdate(nextProps, nextState) {
+    shouldComponetUpdate( nextProps, nextState ) {
         console.log('[Update Persons.js] Inside ');
     }
 
@@ -31,11 +31,11 @@ class Person extends Component {
     render () {
         console.log('[Person.js] Inside render()');
         return (
-            <div className={classes.Person} >
+            <WithClass classes={classes.Person}>
                 <p onClick={this.props.click}>I am {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
                 <input type="text" onChange={this.props.changed} value={this.props.name} />
-            </div>
+            </WithClass>
         )
         // return [
         //     <p key="1" onClick={this.props.click}>I am {this.props.name} and I am {this.props.age} years old!</p>,
