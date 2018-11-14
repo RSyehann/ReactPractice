@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Cockpit/Cockpit';
-import WithClass from '../Hoc/WithClass';
+import Aux from '../Hoc/Aux';
+import withClass from '../Hoc/withClass';
 
 class App extends PureComponent {
   constructor(props) {
@@ -16,7 +17,8 @@ class App extends PureComponent {
         { id: 'qwe1c',name: 'Stephanie', age: 31 }
       ],
       otherState: 'some other value',
-      showPersons: false
+      showPersons: false,
+      toggleClicked: 0
     };
   }
 
@@ -66,7 +68,12 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+    this.setState( (prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
   }
 
   nameChangedHandler = ( event, id ) => {
@@ -93,7 +100,7 @@ class App extends PureComponent {
     console.log('[App.js] Inside render()');
     let persons = null;
 
-    if ( this.state.showPersons) {
+    if ( this.state.showPersons ) {
       persons = 
             <Persons 
               persons={this.state.persons}
@@ -102,7 +109,7 @@ class App extends PureComponent {
     }
 
     return (
-        <WithClass className={classes.App}>
+          <Aux>
             <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
             <Cockpit
               appTitle={this.props.title}
@@ -110,10 +117,10 @@ class App extends PureComponent {
               persons={this.state.persons}
               clicked={this.togglePersonsHandler} />
             {persons} 
-        </WithClass>
+          </Aux>
     );
     // return React.createElement('div', {className: 'App.js'}, React)
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
