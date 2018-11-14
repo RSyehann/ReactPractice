@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import classes from './App.css';
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Cockpit/Cockpit';
 
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
     console.log('[App.js] Inside Constructor', props);
@@ -26,6 +26,23 @@ class App extends Component {
 
   componentDidMount() {
     console.log('[App.js] Inside componentDidMount()');
+  }
+
+  // shouldComponetUpdate( nextProps, nextState ) {
+  //   console.log('[Update App.js] Inside shouldComponentUpdate', nextProps, nextState);
+  //   return nextState.persons !== this.state.persons ||
+  //   nextState.showPersons !== this.state.showPersons;
+  //   // return true;
+  //   // if it return true the process continue,
+  //   // but if it return false we stop the whole process.
+  // }
+
+  componentWillUpdate( nextProps, nextState ) {
+    console.log('[Update App.js] Inside componentWillUpdate', nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log('[Update App.js] Inside componentDidUpdate');
   }
 
   switchNameHandler = (newName) => {
@@ -86,6 +103,7 @@ class App extends Component {
 
     return (
         <div className={classes.App}>
+            <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
             <Cockpit
               appTitle={this.props.title}
               showPersons={this.state.showpersons} 
